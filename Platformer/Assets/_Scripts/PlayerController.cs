@@ -1,10 +1,19 @@
-﻿using UnityEngine;
+﻿/*
+Author: Sri Chatala
+File : PlayerController.cs
+Created Date: Oct 18,2015
+Descriptopn: Player Controller script controll the player gameObjects
+Laster Updated: Oct 22,2015
+*/
+using UnityEngine;
 using System.Collections;
 
 public class PlayerController : MonoBehaviour {
 
     public float moveSpeed;
     public float jumpHeight;
+
+    private float moveVelocity;
 
     public Transform groundCheck;
     public float groundCheckRadius;
@@ -38,19 +47,24 @@ public class PlayerController : MonoBehaviour {
             GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpHeight);
             doubleJump = true;
         }
+        moveVelocity = 0f;
         if (Input.GetKey(KeyCode.D))
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(moveSpeed, 0);
+            moveVelocity = moveSpeed;
         }
         if (Input.GetKey(KeyCode.A))
         {
-            GetComponent<Rigidbody2D>().velocity = new Vector2(-moveSpeed, 0);
+            moveVelocity = -moveSpeed;
         }
+
+        GetComponent<Rigidbody2D>().velocity = new Vector2(moveVelocity, GetComponent<Rigidbody2D>().velocity.y);
         animator.SetFloat("Speed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.x));
 
         if (GetComponent<Rigidbody2D>().velocity.x > 0)
-            transform.localScale = new Vector3(2f, 2f, 2f);
+            transform.localScale = new Vector3(1f, 1f, 1f);
         else if (GetComponent<Rigidbody2D>().velocity.x < 0)
-            transform.localScale = new Vector3(-2f, 2f, 2f);
+            transform.localScale = new Vector3(-1f, 1f, 1f);
+
+        
     }
 }
